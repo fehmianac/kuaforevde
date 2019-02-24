@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace KuaforEvde.Web
 {
@@ -46,6 +47,13 @@ namespace KuaforEvde.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSwaggerGen(c =>
+            {
+
+                c.SwaggerDoc("v1", new Info { Title = "Mutlubiev API", Version = "v1" });
+
+
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IControllerActivator>(new SimpleInjectorControllerActivator(Container));
@@ -76,6 +84,15 @@ namespace KuaforEvde.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
         }
 

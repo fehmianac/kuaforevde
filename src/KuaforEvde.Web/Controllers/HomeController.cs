@@ -12,6 +12,7 @@ namespace KuaforEvde.Web.Controllers
         {
             _mediator = mediator;
         }
+        
         public async Task<IActionResult> Index()
         {
             await _mediator.Send(new ServiceSaveQuery
